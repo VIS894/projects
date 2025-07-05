@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spam Checker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h1 class="text-2xl font-bold text-center text-gray-800 mb-4">🛑 Stop Spam in Its Tracks</h1>
+        <p class="text-center text-gray-600 mb-6">Paste your email content below and we'll check if it's spam or safe.</p>
+        <div>
+            <textarea id="emailInput" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" rows="6" placeholder="Paste your email content here..."></textarea>
+            <button id="checkSpam" class="w-full mt-4 bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200 flex items-center justify-center">
+                🔍 Check for Spam
+            </button>
+            <p id="result" class="mt-4 text-center text-gray-700 hidden"></p>
+        </div>
+    </div>
+    <script>
+        document.getElementById('checkSpam').addEventListener('click', function() {
+            const emailContent = document.getElementById('emailInput').value;
+            const resultElement = document.getElementById('result');
+            
+            if (!emailContent.trim()) {
+                resultElement.textContent = 'Please enter email content to check.';
+                resultElement.classList.remove('hidden', 'text-green-600', 'text-red-600');
+                resultElement.classList.add('text-yellow-600');
+                return;
+            }
+
+            // Basic spam detection logic (can be enhanced with API or ML model)
+            const spamKeywords = ['win', 'free', 'lottery', 'urgent', 'click here', 'limited offer'];
+            const isSpam = spamKeywords.some(keyword => emailContent.toLowerCase().includes(keyword));
+            
+            resultElement.textContent = isSpam 
+                ? '⚠️ This email appears to be spam!'
+                : '✅ This email looks safe!';
+            resultElement.classList.remove('hidden', 'text-yellow-600');
+            resultElement.classList.add(isSpam ? 'text-red-600' : 'text-green-600');
+        });
+    </script>
+</body>
+</html>
